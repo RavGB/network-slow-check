@@ -96,34 +96,42 @@ usage error (bad flags, an unreadable report path, and the like).
 
 ## Example output
 
+This is a real run on 13 Nov 2026 inside a clean Linux container
+(Docker, `golang:1.25-alpine`), copied as printed. The addresses are
+the container's own, which is why the gateway and DNS server are
+Docker's.
+
 ```text
+$ ./network-slow-check
 Network slow check
 RavGB - hello@ravgb.com - https://ravgb.com
-Started: 2026-11-13 11:45:00
+Started: 2026-11-13 19:26:26
 ----------------------------------------------------------------
 Interfaces:
-  lo: up, loopback, MTU 65536, addresses 127.0.0.1/8, ::1/128
-  eth0: up, MTU 1500, addresses 192.168.1.50/24
-Default gateway: 192.168.1.1
-DNS servers: 192.168.1.1
+  lo: up, loopback, MTU 65536, addresses 127.0.0.1/8
+  tunl0: down, MTU 1480, addresses 
+  ip6tnl0: down, MTU 1452, addresses 
+  eth0: up, MTU 1500, addresses 172.17.0.2/16
+Default gateway: 172.17.0.1
+DNS servers: 192.168.65.5
 
 DNS lookup timing:
-  example.com: min 12.0 ms, avg 18.0 ms, max 25.0 ms
-  github.com: min 15.0 ms, avg 22.0 ms, max 31.0 ms
-  ravgb.com: min 11.0 ms, avg 16.0 ms, max 20.0 ms
+  example.com: min 1.5 ms, avg 3.3 ms, max 6.9 ms
+  github.com: min 1.7 ms, avg 10.3 ms, max 27.5 ms
+  ravgb.com: min 1.4 ms, avg 18.2 ms, max 51.3 ms
 
 TCP connect timing (port 443):
-  example.com: min 20.0 ms, avg 24.0 ms, max 29.0 ms
-  github.com: min 35.0 ms, avg 41.0 ms, max 48.0 ms
-  ravgb.com: min 28.0 ms, avg 33.0 ms, max 40.0 ms
+  example.com: min 25.6 ms, avg 36.6 ms, max 50.4 ms
+  github.com: min 83.8 ms, avg 91.2 ms, max 105.8 ms
+  ravgb.com: min 28.5 ms, avg 48.7 ms, max 80.2 ms
 
 HTTP timing:
-  https://example.com/: status 200, 559 bytes
-    DNS 12.0 ms, TCP connect 20.0 ms, TLS handshake 30.0 ms
-    First byte 55.0 ms, total 90.0 ms
+  https://example.com/: status 200, 577 bytes
+    DNS 6.3 ms, TCP connect 42.7 ms, TLS handshake 67.3 ms
+    First byte 148.9 ms, total 149.4 ms
 
 Loopback (this device itself):
-  10 round trips, average 0.050 ms
+  10 round trips, average 0.474 ms
 
 Verdict:
   - Nothing measured as slow and nothing failed. No local cause found: DNS, connections, first response, and this device all look healthy.
